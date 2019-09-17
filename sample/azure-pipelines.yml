@@ -1,17 +1,11 @@
-trigger:
-  branches:
-    include:
-      - '*'
+trigger: none
 
 resources:
   repositories:
-  - repository: azure-pipelines-spfx-templates
+  - repository: azure_pipelines_spfx_templates
     type: github
-    name: voitanos/azure-pipelines-spfx-templates
-    endpoint: voitanos-github
-
-variables:
-  - group: office365credentials
+    name: moswald/azure-pipelines-spfx-templates
+    endpoint: moswald-github
 
 stages:
 - stage: Build
@@ -20,38 +14,3 @@ stages:
     - template: jobs/build.yml@azure-pipelines-spfx-templates
       parameters:
         working_directory: sample
-- stage: Test
-  dependsOn: []
-  jobs:
-    - template: jobs/test.yml@azure-pipelines-spfx-templates
-      parameters:
-        working_directory: sample
-        package_manager: yarn
-- stage: Deploy_Dev
-  dependsOn:
-    - Build
-    - Test
-  jobs:
-    - template: jobs/deploy.yml@azure-pipelines-spfx-templates
-      parameters:
-        display_name: Deploy to development
-        target_environment: Development
-        o365_user_login: $(AdminUserLogin)
-        o365_user_password: $(AdminUserPassword)
-        o365_app_catalog_site_url: https://voitanosdev.sharepoint.com/sites/SPFx-DevOps-DevEnv
-        o365cli_app_catalog_scope: sitecollection
-        o365cli_deploy_extra_arguments: '--skipFeatureDeployment'
-- stage: Deploy_Prod
-  dependsOn:
-    - Build
-    - Test
-  jobs:
-    - template: jobs/deploy.yml@azure-pipelines-spfx-templates
-      parameters:
-        display_name: Deploy to production
-        target_environment: Production
-        o365_user_login: $(AdminUserLogin)
-        o365_user_password: $(AdminUserPassword)
-        o365_app_catalog_site_url: https://voitanosdev.sharepoint.com/sites/SPFx-DevOps-ProdEnv
-        o365cli_app_catalog_scope: sitecollection
-        o365cli_deploy_extra_arguments: '--skipFeatureDeployment'
