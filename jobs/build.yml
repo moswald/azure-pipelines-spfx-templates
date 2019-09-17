@@ -24,19 +24,18 @@ jobs:
     displayName: Install dependencies (NPM)
     workingDirectory: ${{ parameters.working_directory }}
     condition: eq('${{ parameters.package_manager }}', 'npm')
-  - script: yarn install --frozen-lockfile
-    displayName: Install dependencies (Yarn)
-    workingDirectory: ${{ parameters.working_directory }}
-    condition: eq('${{ parameters.package_manager }}', 'yarn')
-  - script: pnpm install --shamefully-flatten
-    displayName: Install dependencies (with PNPM)
-    workingDirectory: ${{ parameters.working_directory }}
-    condition: eq('${{ parameters.package_manager }}', 'pnpm')
   ##########################################
   ## execute: gulp build
   ##########################################
   - task: Gulp@0
-    displayName: SPFx build
+    displayName: SPFx build (v0)
     inputs:
       gulpFile: $(Build.Repository.LocalPath)/${{ parameters.working_directory }}/gulpfile.js
+      targets: build
+
+  - task: Gulp@1
+    displayName: SPFx build (v1)
+    inputs:
+      gulpFile: $(Build.Repository.LocalPath)/${{ parameters.working_directory }}/gulpfile.js
+      workingDirectory: ${{ parameters.working_directory }}
       targets: build
