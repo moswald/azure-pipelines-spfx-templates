@@ -5,7 +5,7 @@ resources:
   - repository: azure_pipelines_spfx_templates
     type: github
     name: moswald/azure-pipelines-spfx-templates
-    endpoint: moswald-github
+    endpoint: VSTS Testing
 
 stages:
 - stage: Build
