@@ -4,13 +4,13 @@ resources:
   repositories:
   - repository: azure_pipelines_spfx_templates
     type: github
-    name: azure-pipelines-spfx-templates
+    name: moswald/azure-pipelines-spfx-templates
     endpoint: VSTS Testing
 
 stages:
 - stage: Build
   dependsOn: []
   jobs:
-    - template: jobs/build.yml@azure-pipelines-spfx-templates
+    - template: jobs/build.yml@azure_pipelines_spfx_templates
       parameters:
         working_directory: sample
