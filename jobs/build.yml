@@ -30,7 +30,7 @@ jobs:
   - task: Gulp@0
     displayName: SPFx build (v0)
     inputs:
-      gulpFile: $(Build.Repository.LocalPath)/${{ parameters.working_directory }}/gulpfile.js
+      workingDirectory: ${{ parameters.working_directory }}
       targets: build
 
   - task: Gulp@1
